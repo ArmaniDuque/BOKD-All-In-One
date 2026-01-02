@@ -211,76 +211,87 @@ $role = $_SESSION['userrole'];
                                                     <a href="create-users.php" class="btn btn-primary">Add New
                                                         Profile</a>
                                                 </div>
-                                                <table class="table table-striped " style="width:100%" id="example">
-
+                                                <?php
+                                                $currentdate = date("m-d-Y");
+                                                $query = "SELECT * FROM mktgdisplay ";
+                                                $app = new App;
+                                                $description = $app->selectAll($query);
+                                                ?>
+                                                <table class="table table-striped " style="width:100%" id="history">
                                                     <thead>
                                                         <tr>
-                                                            <!-- <th>No.</th> -->
-                                                            <th>ID No.</th>
-                                                            <th>Full Name</th>
-                                                            <th>Position</th>
-                                                            <th>Department</th>
-                                                            <th>Job Level</th>
-                                                            <th>Emplotment Status</th>
-                                                            <!-- <th>Area of Assignment</th> -->
-                                                            <!-- <th>Dated Hired</th> -->
-                                                            <!-- <th>Contact</th>
-                                <th>Email</th> -->
-                                                            <!-- <th>Birth Date</th>
-                                <th>Age</th>
-                                <th>Gender</th> -->
-                                                            <!-- <th>Civil Status</th> -->
-                                                            <th>Username</th>
-                                                            <!-- <th>Password</th> -->
-                                                            <th>Role</th>
-                                                            <!-- <th>Remarks</th> -->
                                                             <th>Action</th>
+                                                            <th>ID</th>
+                                                            <th>Title</th>
+                                                            <th>Desciptions</th>
+                                                            <th>Start Date</th>
+                                                            <th>End Date</th>
+                                                            <th>Photo</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php foreach ($users as $user): ?>
+                                                        <?php foreach ($description as $descriptionlist): ?>
 
                                                             <tr>
 
-                                                                <td><?php echo $user->userid ?></td>
-                                                                <!-- <td><?php echo $user->useridno ?></td> -->
-                                                                <td><?php echo $user->userfullname ?></td>
-                                                                <td><?php echo $user->userposition ?></td>
-                                                                <td><?php echo $user->userdepartment ?></td>
-                                                                <td><?php echo $user->userjoblevel ?></td>
-                                                                <td><?php echo $user->useremploymentstatus ?></td>
-                                                                <!-- <td><?php echo $user->userareaofassignment ?></td> -->
-                                                                <!-- <td><?php echo $user->userdatehired ?></td> -->
-                                                                <!-- <td><?php echo $user->usercontact ?></td>
-                                <td><?php echo $user->useremail ?></td> -->
-                                                                <!-- <td><?php echo $user->userbirthdate ?></td>
-                                <td><?php echo $user->userage ?></td>
-                                <td><?php echo $user->usergender ?></td> -->
-                                                                <!-- <td><?php echo $user->usercivilstatus ?></td> -->
-                                                                <td><?php echo $user->username ?></td>
-                                                                <!-- <td><?php echo $user->userpassword ?></td> -->
-                                                                <td><?php echo $user->userrole ?></td>
-
-                                                                <!-- <td><?php echo $user->userremarks ?></td> -->
-
                                                                 <td>
                                                                     <a style="text-decoration:none;"
-                                                                        href="update-usersinfo.php?edit=<?php echo $user->userid ?>"
-                                                                        class="text-success">&nbsp;&nbsp;
-                                                                        <i class="nav-icon fas fa fa-edit"></i>&nbsp;&nbsp;
-
-                                                                    </a>|
+                                                                        href="displaylandscapelist.php?edit=<?php echo $descriptionlist->id ?>"
+                                                                        class="text-success">
+                                                                        <i class="nav-icon fas fa fa-edit"></i>
+                                                                    </a> |
                                                                     <a style="text-decoration:none;"
-                                                                        href="userslist.php?delete=<?php echo $user->userid ?>"
-                                                                        class="text-danger">&nbsp;&nbsp;
-                                                                        <i class="nav-icon fas fa fa-trash"></i>&nbsp;&nbsp;
+                                                                        href="displaylandscapelist.php?delete=<?php echo $descriptionlist->id ?>"
+                                                                        class="text-danger">
+                                                                        <i class="nav-icon fas fa fa-trash"></i>
 
                                                                     </a>
+
                                                                 </td>
+                                                                <td><?php echo $descriptionlist->id ?></td>
+                                                                <td><?php echo $descriptionlist->title ?></td>
+                                                                <td><?php echo $descriptionlist->description ?></td>
+                                                                <td><?php echo $descriptionlist->startdate ?></td>
+                                                                <td><?php echo $descriptionlist->enddate ?></td>
+                                                                <td><img src="<?php echo APPURL; ?>img/mktg/landscape/<?php echo $descriptionlist->checkofficephoto ?>"
+                                                                        style="width:100px;"></td>
+
                                                             </tr>
+
+
                                                         <?php endforeach; ?>
                                                     </tbody>
+
+                                                    <script type="text/javascript">
+                                                        $(document).ready(function () {
+                                                            $('#history').DataTable({
+                                                                "pageLength": 10,
+                                                                dom: 'Bfrtip',
+                                                                buttons: [
+                                                                    'copy', 'csv', 'excel', 'pdf',
+                                                                    'print'
+                                                                ]
+
+
+                                                            });
+
+
+
+                                                        });
+
+
+
+
+
+
+                                                        $('#history [data-toggle="tooltip"]').tooltip({
+                                                            animated: 'fade',
+                                                            placement: 'bottom',
+                                                            html: true
+                                                        });
+                                                    </script>
                                                 </table>
+
                                             </div>
 
                                         </div>
