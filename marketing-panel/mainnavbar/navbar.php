@@ -4,7 +4,7 @@
         <!-- style="display: none;" -->
         <li class="nav-item">
             <a href="<?php echo APPURL; ?>marketing-panel/index.php" class="nav-link">
-                <i class="fas fa-file-alt nav-icon"></i>
+                <i class="fas fa-file-alt nav-icon text-success"></i>
                 <p>Marketing</p>
             </a>
             <?php //require "marketingnavbar.php"; ?>

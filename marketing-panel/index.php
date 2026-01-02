@@ -72,12 +72,12 @@
 
                                     <td>
                                         <a style="text-decoration:none;"
-                                            href="displaylandscapelist.php?edit=<?php echo $descriptionlist->id ?>"
+                                            href="<?php echo APPURL; ?>marketing-panel/displaysetup/displaylandscapelist.php?edit=<?php echo $descriptionlist->id ?>"
                                             class="text-success">
                                             <i class="nav-icon fas fa fa-edit"></i>
                                         </a> |
                                         <a style="text-decoration:none;"
-                                            href="displaylandscapelist.php?delete=<?php echo $descriptionlist->id ?>"
+                                            href="<?php echo APPURL; ?>marketing-panel/displaysetup/displaylandscapelist.php?delete=<?php echo $descriptionlist->id ?>"
                                             class="text-danger">
                                             <i class="nav-icon fas fa fa-trash"></i>
 
