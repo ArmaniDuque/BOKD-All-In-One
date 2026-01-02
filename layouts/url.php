@@ -2,8 +2,8 @@
 // $http = 'http:/';
 // $ip = 'localhost';
 $http = 'http:/';
-// $ip = '10.60.0.22';
-$ip = 'localhost';
+$ip = '10.60.0.82';
+// $ip = 'localhost';
 $project = 'BOKD-All-In-One';
 
 // error_reporting(E_ALL);
