@@ -3,7 +3,7 @@
     <ul class="nav nav-treeview">
         <!-- style="display: none;" -->
         <li class="nav-item">
-            <a href="<?php echo APPURL; ?>marketing-panel/marketinglist/index.php" class="nav-link">
+            <a href="<?php echo APPURL; ?>marketing-panel/index.php" class="nav-link">
                 <i class="fas fa-file-alt nav-icon"></i>
                 <p>Marketing</p>
             </a>
