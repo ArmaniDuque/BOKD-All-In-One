@@ -1,0 +1,65 @@
+ /* Custom CSS for elements that need precise control */
+ .order-item:hover {
+     background-color: #f3f4f6;
+     transition: background-color 0.2s;
+ }
+
+ .category-btn.active {
+     background-color: #3b82f6;
+     color: white;
+ }
+
+ /* Animation for order items */
+ @keyframes fadeIn {
+     from {
+         opacity: 0;
+         transform: translateY(10px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ .order-item {
+     animation: fadeIn 0.3s ease-out;
+ }
+
+ /* Styles for footer buttons */
+ .footer-btn {
+     @apply px-4 py-2 rounded-lg font-semibold shadow text-white flex items-center justify-center text-sm;
+     flex: 1;
+     /* Make buttons take equal width */
+     margin: 0 4px;
+     /* Add some spacing between them */
+     min-width: 80px;
+     /* Ensure a minimum width */
+ }
+
+ .footer-btn:first-child {
+     margin-left: 0;
+ }
+
+ .footer-btn:last-child {
+     margin-right: 0;
+ }
+
+ /* Custom scrollbar for better aesthetics if needed */
+ .overflow-y-auto::-webkit-scrollbar {
+     width: 8px;
+ }
+
+ .overflow-y-auto::-webkit-scrollbar-track {
+     background: #f1f1f1;
+     border-radius: 10px;
+ }
+
+ .overflow-y-auto::-webkit-scrollbar-thumb {
+     background: #888;
+     border-radius: 10px;
+ }
+
+ .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+     background: #555;
+ }

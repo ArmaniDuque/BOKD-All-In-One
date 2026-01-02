@@ -1,0 +1,335 @@
+
+
+.dispatcher-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    /* max-width: 1400px; */
+    /* Wider for more columns/info */
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 2.8em;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #bdc3c7;
+    padding-bottom: 15px;
+}
+
+.status-filter {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background-color: #95a5a6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-btn:hover {
+    background-color: #7f8c8d;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background-color: #3498db;
+    /* Active filter color */
+    box-shadow: 0 3px 8px rgba(52, 152, 219, 0.4);
+    transform: translateY(-1px);
+}
+
+#dispatcher-orders-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    /* Larger cards for more details */
+    gap: 25px;
+}
+
+.loading-message {
+    text-align: center;
+    grid-column: 1 / -1;
+    font-size: 1.2em;
+    color: #7f8c8d;
+    padding: 50px;
+}
+
+.order-card {
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, opacity 0.3s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Status-specific card styling */
+.status-Done {
+    border-left: 5px solid #f39c12;
+}
+
+/* Ready for dispatch */
+.status-Out_for_Delivery {
+    border-left: 5px solid #3498db;
+}
+
+/* In transit */
+.status-Delivered {
+    border-left: 5px solid #2ecc71;
+    opacity: 0.7;
+}
+
+/* Completed */
+.status-Picked_Up {
+    border-left: 5px solid #2ecc71;
+    opacity: 0.7;
+}
+
+/* Completed */
+
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ddd;
+}
+
+.order-id {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #34495e;
+}
+
+.order-timestamp {
+    font-size: 0.9em;
+    color: #7f8c8d;
+}
+
+.customer-info,
+.delivery-address {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.order-items-summary {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    color: #666;
+    flex-grow: 1;
+}
+
+.order-items-summary li {
+    padding: 4px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dotted #eee;
+}
+
+.order-items-summary li:last-child {
+    border-bottom: none;
+}
+
+.item-qty {
+    font-weight: 600;
+}
+
+.order-total {
+    text-align: right;
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #27ae60;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.dispatch-details {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed #eee;
+    font-size: 0.95em;
+    color: #444;
+}
+
+.dispatch-details p {
+    margin: 5px 0;
+}
+
+.dispatch-status {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 20px;
+    margin-top: 15px;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Dispatch Status Colors (Aligned with overall order status where applicable) */
+.dispatch-status-Done {
+    background-color: #f39c12;
+}
+
+/* Ready for Dispatch */
+.dispatch-status-Out_for_Delivery {
+    background-color: #3498db;
+}
+
+/* Out for Delivery */
+.dispatch-status-Delivered {
+    background-color: #2ecc71;
+}
+
+/* Delivered */
+.dispatch-status-Picked_Up {
+    background-color: #27ae60;
+}
+
+/* Picked Up (slightly different green) */
+
+
+.dispatcher-actions {
+    display: flex;
+    flex-direction: column;
+    /* Stack buttons */
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.dispatcher-action-btn {
+    background-color: #6c757d;
+    /* Default gray */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.dispatcher-action-btn:hover {
+    transform: translateY(-1px);
+}
+
+.dispatcher-action-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #ccc;
+}
+
+/* Specific button colors */
+.assign-rider-btn {
+    background-color: #8e44ad;
+}
+
+/* Purple for assign */
+.assign-rider-btn:hover {
+    background-color: #6c3483;
+}
+
+.out-for-delivery-btn {
+    background-color: #3498db;
+}
+
+/* Blue for out for delivery */
+.out-for-delivery-btn:hover {
+    background-color: #2980b9;
+}
+
+.mark-delivered-btn {
+    background-color: #2ecc71;
+}
+
+/* Green for delivered */
+.mark-delivered-btn:hover {
+    background-color: #27ad60;
+}
+
+.mark-picked-up-btn {
+    background-color: #27ae60;
+}
+
+/* Another green for picked up */
+.mark-picked-up-btn:hover {
+    background-color: #219655;
+}
+
+/* Rider input style */
+.rider-input {
+    width: calc(100% - 20px);
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9em;
+    box-sizing: border-box;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 992px) {
+    #dispatcher-orders-list {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .dispatcher-container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    #dispatcher-orders-list {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-btn {
+        flex-grow: 1;
+        font-size: 1em;
+        padding: 8px 15px;
+    }
+
+    .order-card {
+        padding: 15px;
+    }
+}

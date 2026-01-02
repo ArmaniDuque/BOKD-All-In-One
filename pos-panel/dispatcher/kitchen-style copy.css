@@ -1,0 +1,281 @@
+
+.kitchen-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    /* max-width: 1200px; */
+    /* Wider for more orders */
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 2.8em;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #bdc3c7;
+    padding-bottom: 15px;
+}
+
+#orders-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    /* Responsive grid */
+    gap: 25px;
+}
+
+.loading-message {
+    /* Included for completeness, though typically managed by JS */
+    text-align: center;
+    grid-column: 1 / -1;
+    /* Span full width */
+    font-size: 1.2em;
+    color: #7f8c8d;
+    padding: 50px;
+    display: none;
+    /* Hidden for design-only, unless you want a default message */
+}
+
+.order-card {
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ddd;
+}
+
+.order-id {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #34495e;
+}
+
+.order-timestamp {
+    font-size: 0.9em;
+    color: #7f8c8d;
+}
+
+.order-items-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+    flex-grow: 1;
+    /* Allow list to take available space */
+}
+
+.order-item {
+    display: flex;
+    flex-direction: column;
+    /* Stack name/quantity and remarks */
+    padding: 8px 0;
+    border-bottom: 1px dotted #eee;
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.item-main-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1em;
+}
+
+.item-name-qty {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.item-name-qty span {
+    font-weight: normal;
+    color: #7f8c8d;
+    margin-left: 5px;
+}
+
+.item-price {
+    font-weight: 700;
+    color: #27ae60;
+}
+
+.item-remarks {
+    font-size: 0.85em;
+    color: #555;
+    background-color: #f8f8f8;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin-top: 5px;
+    margin-left: 10px;
+    /* Indent remarks slightly */
+    white-space: pre-wrap;
+    word-break: break-word;
+    border-left: 3px solid #bdc3c7;
+}
+
+.order-total {
+    text-align: right;
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #27ae60;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.order-status {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 20px;
+    margin-top: 15px;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Status specific colors */
+.status-Pending {
+    background-color: #f39c12;
+}
+
+/* Orange */
+.status-Accepted {
+    background-color: #3498db;
+}
+
+/* Blue */
+.status-Preparing {
+    background-color: #2ecc71;
+}
+
+/* Green */
+.status-Served {
+    background-color: #7f8c8d;
+}
+
+/* Gray */
+
+.order-actions {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow buttons to wrap */
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.status-btn {
+    background-color: #95a5a6;
+    /* Default gray */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    flex-grow: 1;
+    /* Allow buttons to grow */
+    min-width: 120px;
+    /* Minimum width for buttons */
+}
+
+.status-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Specific button colors */
+.status-btn[data-status="Accepted"] {
+    background-color: #3498db;
+}
+
+.status-btn[data-status="Accepted"]:hover {
+    background-color: #2980b9;
+}
+
+.status-btn[data-status="Preparing"] {
+    background-color: #2ecc71;
+}
+
+.status-btn[data-status="Preparing"]:hover {
+    background-color: #27ad60;
+}
+
+.status-btn[data-status="Served"] {
+    background-color: #7f8c8d;
+}
+
+.status-btn[data-status="Served"]:hover {
+    background-color: #6c757d;
+}
+
+/* Hide buttons for current status (design-only, typically managed by JS) */
+.status-btn.current-status {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .kitchen-container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    #orders-list {
+        grid-template-columns: 1fr;
+        /* Single column on small screens */
+    }
+
+    .order-card {
+        padding: 15px;
+    }
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .order-timestamp {
+        margin-top: 5px;
+    }
+
+    .order-actions {
+        flex-direction: column;
+    }
+
+    .status-btn {
+        width: 100%;
+        min-width: unset;
+    }
+}

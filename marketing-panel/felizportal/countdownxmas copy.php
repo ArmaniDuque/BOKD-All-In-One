@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Feliz Holiday Experience</title>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body, html { height: 100%; overflow: hidden; background: #000; perspective: 1000px; }
+
+        /* Start Overlay */
+        #start-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            transition: opacity 0.8s ease;
+        }
+
+        #start-btn {
+            padding: 22px 60px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: white;
+            background: linear-gradient(45deg, #c41e3a, #ff4d4d);
+            border: none;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
+        }
+
+        #start-btn:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(196, 30, 58, 0.6);
+        }
+
+        /* Parallax Background */
+        .background-container {
+            position: fixed;
+            top: -5%; left: -5%;
+            width: 110%; height: 110%;
+            z-index: 0;
+            transition: transform 0.1s ease-out;
+        }
+
+        .bg-media {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: brightness(35%) contrast(110%);
+        }
+
+        /* Floating Layers */
+        #snow-canvas { position: fixed; top: 0; left: 0; z-index: 2; pointer-events: none; }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            pointer-events: none; /* Mouse passes through to parallax layer */
+        }
+
+        .company-logo {
+            width: 1000px;
+            margin-bottom: -40px;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.2));
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Glowing Timer Effect */
+        #timer { display: flex; gap: 50px; }
+
+        .time-block span {
+            display: block;
+            font-size: 12rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.3); transform: scale(1); }
+            50% { text-shadow: 0 0 40px rgba(255, 255, 255, 0.7); transform: scale(1.02); }
+        }
+
+        .time-block p {
+            font-size: 1rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: #ffd700; /* Gold accents */
+        }
+
+        #celebration-text {
+            font-size: 10rem;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff 20%, #ffd700 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 40px rgba(255,215,0,0.6));
+        }
+
+        .hidden { display: none; }
+
+        /* Animation for Fireworks text */
+        .animate-pop { animation: popIn 1s cubic-bezier(0.17, 0.89, 0.32, 1.49) forwards; }
+        @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        @media (max-width: 768px) {
+            .time-block span { font-size: 3.5rem; }
+            #timer { gap: 15px; }
+            .company-logo { width: 280px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="start-overlay">
+        <button id="start-btn">BEGIN COUNTDOWN</button>
+    </div>
+
+   <audio id="bg-music" loop>
+        <source src="christmas.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="fireworks-sound">
+        <source src="Fireworks.mp3" type="audio/mpeg">
+    </audio>
+
+
+    <canvas id="snow-canvas"></canvas>
+
+    <div class="background-container" id="bg-parallax">
+        <img src="bg.jpg" class="bg-media" alt="Background">
+    </div>
+
+    <div class="content">
+        <img src="FelizLogo.png" alt="Logo" class="company-logo" id="logo-parallax">
+        
+        <div id="countdown-wrap">
+            <div id="timer">
+                <div class="time-block"><span id="days">00</span><p>Days</p></div>
+                <div class="time-block"><span id="hours">00</span><p>Hours</p></div>
+                <div class="time-block"><span id="minutes">00</span><p>Mins</p></div>
+                <div class="time-block"><span id="seconds">00</span><p>Secs</p></div>
+            </div>
+        </div>
+
+        <h1 id="celebration-text" class="hidden">Merry Christmas!</h1>
+    </div>
+
+    <script src="confetti.browser.min.js"></script>
+
+    <script>
+        // 1. PARALLAX EFFECT
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            
+            document.getElementById('bg-parallax').style.transform = `translate(${x}px, ${y}px)`;
+            document.getElementById('logo-parallax').style.transform = `translate(${-x}px, ${-y}px)`;
+        });
+
+        // 2. AUDIO & START
+        const startBtn = document.getElementById('start-btn');
+        startBtn.addEventListener('click', () => {
+            document.getElementById('start-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('start-overlay').style.display = 'none';
+                document.getElementById('bg-music').play();
+            }, 800);
+        });
+
+        // 3. COUNTDOWN & FIREWORKS
+        const targetDate = new Date("Dec 25, 2025 00:00:00").getTime();
+
+        const countdown = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = d.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = m.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = s.toString().padStart(2, '0');
+
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.getElementById("countdown-wrap").classList.add("hidden");
+                const celeb = document.getElementById("celebration-text");
+                celeb.classList.remove("hidden");
+                celeb.classList.add("animate-pop");
+                
+                document.getElementById('bg-music').pause();
+                document.getElementById('fireworks-sound').play();
+
+                // Firework Loop
+                const end = Date.now() + (15 * 1000);
+                (function frame() {
+                    confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ffd700', '#ffffff', '#ff0000'] });
+                    confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ffd700', '#ffffff', '#ff0000'] });
+                    if (Date.now() < end) requestAnimationFrame(frame);
+                }());
+            }
+        }, 1000);
+
+        // 4. ADVANCED SNOW (With Drifting Sparkles)
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speed = Math.random() * 0.8 + 0.2;
+                this.wind = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+            update() {
+                this.y += this.speed;
+                this.x += this.wind;
+                if (this.y > canvas.height) this.y = -10;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 150; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

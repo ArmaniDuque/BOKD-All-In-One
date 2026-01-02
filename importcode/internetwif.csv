@@ -1,0 +1,29 @@
+﻿Model,IP,Location,MAC,Status,username,password,remarks
+Ubiquiti Networks Inc.,172.16.2.10,UAPACPRO La Marea 1st Floor,FC:EC:DA:16:AA:C8,Working,,,
+Ubiquiti Networks Inc.,172.16.2.11,UAPACPRO Conference Hall Main,FC:EC:DA:16:C2:C2,Working,,,
+Ubiquiti Networks Inc.,172.16.2.12,UAPACPRO Conference Hall 2nd Floor,FC:EC:DA:16:B8:A5,Working,,,
+Ubiquiti Networks Inc.,172.16.2.13,UAPACPRO Area 73 Staff House,FC:EC:DA:16:C4:C3,Working,,,
+Ubiquiti Networks Inc.,172.16.2.41,UAPACM-01 INN 1,78:8A:20:B3:44:4A,Inactive,,,Temporary Slow Internet Connection For replacementt and additional wifi access done PR of IT Equipement Needs
+Ubiquiti Networks Inc.,172.16.2.43,UAPACM-01 INN 3,78:8A:20:B3:43:DD,Working,,,
+Ubiquiti Networks Inc.,172.16.2.44,UAPACM-01 INN 4,78:8A:20:70:DD:F5,Working,,,
+Ubiquiti Networks Inc.,172.16.2.5,UAP-FNB Kitchen Office,04:18:D6:8C:7B:ED,Inactive,,,Damage Wifi Temporary IT Wifi Setup
+Ubiquiti Networks Inc.,172.16.2.6,UAP-Area 71 Members Gate,04:18:D6:8C:7F:31,Working,,,
+Ubiquiti Networks Inc.,172.16.2.9,UAPACPRO La Marea 2nd Floor,FC:EC:DA:16:B0:F8,Working,,,
+Grandstream,172.16.0.101,GWN - IT ROOM,C0:74:AD:1B:71:84,Working,mbcisysadmin,P@ssw0rd,Setup in Kitchen Office
+Grandstream,172.16.0.102,GWN - HATCHERY,C0:74:AD:14:76:C8,Inactive,mbcisysadmin,P@ssw0rd,Temporary Not working due to damage Switch Done PR of IT equipment
+Grandstream,172.16.0.105,GWN - RM OFFICE,C0:74:AD:1A:C8:38,Working,mbcisysadmin,P@ssw0rd,
+Grandstream,172.16.0.106,GWN - INN2,,Working,mbcisysadmin,P@ssw0rd,
+Grandstream,172.16.0.122,GWN - 72 PUMP HOUSE,C0:74:AD:1A:CA:60,Working,mbcisysadmin,P@ssw0rd,
+Grandstream,172.16.0.127,GWN - 006 ENG,C0:74:AD:1B:73:50,Working,mbcisysadmin,P@ssw0rd,
+Grandstream,172.16.0.149,GWN - INN 2 Right,,Working,mbcisysadmin,P@ssw0rd,
+Grandstream,172.16.0.150,GWN - INN 2 Left,,Working,mbcisysadmin,P@ssw0rd,
+Grandstream,172.16.0.211,GWN - ACCOUNTING OFFICE,C0:74:AD:1A:C0:40,Working,mbcisysadmin,P@ssw0rd,
+Grandstream,172.16.0.212,GWN - SECURITY OFFICE,C0:74:AD:1D:92:E8,Working,mbcisysadmin,P@ssw0rd,
+Grandstream,172.16.0.213,GWN - INN5 LEFT,C0:74:AD:1A:C3:28,Inactive,mbcisysadmin,P@ssw0rd,Temporary Not working due to damage Switch Done PR of IT equipment
+Grandstream,172.16.0.215,GWN - 003 SPORTS BAR,C0:74:AD:1B:75:B8,Inactive,mbcisysadmin,P@ssw0rd,Temporary Not working due to damage Switch Done PR of IT equipment
+Grandstream,172.16.0.216,GWN - CONFERENCE HALL BANQUET OFFICE,00:00:00:00:00:00,Working,mbcisysadmin,P@ssw0rd,
+Grandstream,172.16.0.218,GWN - INN5 RIGHT,,Working,mbcisysadmin,P@ssw0rd,
+Grandstream,172.16.0.222,GWN - BFR,C0:74:AD:1D:92:B4,Inactive,mbcisysadmin,P@ssw0rd,Temporary Not working due to damage Switch Done PR of IT equipment
+TPLINKA742,172.16.0.205,IT,D8:44:89:DE:A7:42,Working,admin,P@ssw0rd,
+TPLINK861A,172.16.0.206,ENGINEERING,D8:44:89:DE:86:A1,Working,admin,P@ssw0rd,
+TPLINK86C6,172.16.0.207,KITCHEN,D8:44:89:DE:86:C6,Working,admin,P@ssw0rd,
