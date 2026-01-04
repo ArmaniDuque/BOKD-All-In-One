@@ -22,7 +22,7 @@
                 <li class="nav-item">
                     <a href="<?php echo APPURL; ?>marketing-panel/displaysetup/displaylandscapelist.php"
                         class="nav-link">
-                        Slide 1 Lanscape Display </a>
+                        Slide 1 Main Display </a>
                 </li>
                 <li class="nav-item">
                     <a href="<?php echo APPURL; ?>marketing-panel/displaysetup/displayportraitlist.php"
@@ -32,7 +32,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="<?php echo APPURL; ?>marketing-panel/displaysetup/displaylist.php" class="nav-link">
-                        Slide 3 Bottom Display
+                        Slide 3 Announcements Display
                     </a>
                 </li>
 

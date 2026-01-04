@@ -36,14 +36,14 @@
 
         <li class="nav-item">
             <a href="<?php echo APPURL; ?>marketing-panel/announcement/index.php" class="nav-link">
-                <i class="fas fa-trash nav-icon"></i>
+                <i class="fas fa-trash nav-icon text-success"></i>
                 <p>Announcements</p>
             </a>
         </li>
 
         <li class="nav-item">
             <a href="<?php echo APPURL; ?>marketing-panel/events/index.php" class="nav-link">
-                <i class="fas fa fa-cogs nav-icon"></i>
+                <i class="fas fa fa-cogs nav-icon text-success"></i>
                 <p>Events</p>
 
             </a>

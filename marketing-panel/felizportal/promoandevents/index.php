@@ -6,7 +6,7 @@
 
     <div class="dashboard-container">
         <img src="../FelizLogo.png" alt="Feliz Hotel Logo" class="company-logo">
-        <div class="welcome-msg">Events Location</div>
+        <div class="welcome-msg">Promo And Events Display</div>
 
         <div class="button-grid">
             <!-- <a href="promoeventimages.php" class="flat-btn">
@@ -32,10 +32,6 @@
             <a href="promoeventimages-f.php" class="flat-btn">
                 <span class="icon">🎁</span>
                 Promo and Events with footer Images Slide Show
-            </a>
-            <a href="alfresco.php" class="flat-btn btn-nye">
-                <span class="icon">🎆</span>
-                Alfresco Events
             </a>
 
         </div>
