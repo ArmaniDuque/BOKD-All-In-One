@@ -168,13 +168,13 @@
             </div>
 
             <!-- Marketing System -->
-            <a href="<?php echo APPURL; ?>marketing-panel/mbcislide.php">
+            <a href="<?php echo APPURL; ?>marketing-panel/felizportal/index.php">
                 <div class="system-card bg-cyan-500/25 rounded-xl shadow-md overflow-hidden p-6 text-center cursor-pointer"
-                    onclick="window.location.href=<?php echo APPURL; ?>'marketing-panel/mbcislide.php;'">
+                    onclick="window.location.href=<?php echo APPURL; ?>'marketing-panel/felizportal/index.php;'">
                     <div class="system-icon text-orange-600">
                         <i class="fas fa-bullhorn"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">MBCI Display</h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Feliz Fortal</h3>
                     <p class="text-gray-600">Centralized platform for managing all marketing campaigns, content, and
                         data.
                     </p>

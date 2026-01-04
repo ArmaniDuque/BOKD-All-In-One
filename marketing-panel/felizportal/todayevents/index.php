@@ -1,3 +1,6 @@
+<?php require "../../../config/config.php"; ?>
+<?php require "../../../libs/app.php"; ?>
+<?php include "../../../layouts/url.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 <?php include "header.php"; ?>
@@ -9,11 +12,21 @@
         <div class="welcome-msg">Events Location</div>
 
         <div class="button-grid">
-            <a href="laplaza.php" class="flat-btn">
-                <span class="icon">🎁</span>
-                La Plaza Events
-            </a>
-            <a href="buenavista.php" class="flat-btn">
+            <?php
+            $currentdate = date("m-d-Y");
+            $query = "SELECT * FROM mktgeventcategory";
+            $app = new App;
+            $category = $app->selectAll($query);
+            ?>
+            <?php foreach ($category as $categorylist): ?>
+                <a href="todaysevent.php?id=<?php echo $categorylist->id; ?>" class="flat-btn">
+                    <span class="icon">🎁</span>
+                    <?php echo $categorylist->location; ?>
+                </a>
+            <?php endforeach; ?>
+
+
+            <!-- <a href="buenavista.php" class="flat-btn">
                 <span class="icon">📅</span>
                 Buenavista Events
             </a>
@@ -23,7 +36,7 @@
             </a>
             <a href="alfresco.php" class="flat-btn btn-nye">
                 <span class="icon">🎆</span>
-                Alfresco Events
+                Alfresco Events -->
             </a>
 
         </div>

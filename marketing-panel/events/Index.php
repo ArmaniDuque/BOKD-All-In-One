@@ -1,0 +1,455 @@
+<?php require "../../header.php"; ?>
+<?php require "../sidebar.php"; ?>
+<?php
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $query = "DELETE FROM mktgeventdisplay where id='$id'";
+    $app = new App;
+    $path = "index.php";
+    $app->delete($query, $path);
+}
+?>
+<?php
+if (isset($_POST['save'])) {
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $eventcategoryid = $_POST['eventcategoryid'];
+    $startdate = $_POST['startdate'];
+    $enddate = $_POST['enddate'];
+    $slidecategory = '0';
+    // $checkofficephoto = 'default.png';
+    $checkofficephoto = $_FILES['checkofficephoto']['name'];
+    $dir = "../../img/mktg/eventlogo/" . basename($checkofficephoto);
+
+    $query = "INSERT INTO mktgeventdisplay (title, description, eventcategoryid,  startdate, enddate, checkofficephoto, slidecategory)
+VALUES(:title, :description, :eventcategoryid, :startdate, :enddate, :checkofficephoto, :slidecategory)";
+    $arr = [
+        ":title" => $title,
+        ":description" => $description,
+        ":eventcategoryid" => $eventcategoryid,
+        ":startdate" => $startdate,
+        ":enddate" => $enddate,
+        ":checkofficephoto" => $checkofficephoto,
+        ":slidecategory" => $slidecategory,
+    ];
+    $path = "index.php";
+
+    if (move_uploaded_file($_FILES['checkofficephoto']['tmp_name'], $dir)) {
+        $app->register($query, $arr, $path);
+    }
+}
+?>
+
+<?php
+if (isset($_POST['edit'])) {
+
+    if (isset($_POST['submit'])) {
+        echo $id = $_POST['edit'];
+        $description = $_POST['description'];
+        $eventcategoryid = $_POST['eventcategoryid'];
+        $title = $_POST['title'];
+        $startdate = $_POST['startdate'];
+        $enddate = $_POST['enddate'];
+        $slidecategory = '1';
+        $checkofficephoto = $_FILES['checkofficephoto']['name'];
+        $dir = "../../img/mktg/eventlogo/" . basename($checkofficephoto);
+        $query = "UPDATE mktgeventdisplay SET description=:description, title=:title, eventcategoryid=:eventcategoryid , startdate=:startdate , enddate=:enddate, checkofficephoto=:checkofficephoto, slidecategory=:slidecategory WHERE id=:id";
+        $arr = [
+            ":title" => $title,
+            ":description" => $description,
+            ":eventcategoryid" => $eventcategoryid,
+            ":startdate" => $startdate,
+            ":enddate" => $enddate,
+            ":checkofficephoto" => $checkofficephoto,
+            ":slidecategory" => $slidecategory,
+            ":id" => $id
+        ];
+
+        $path = "index.php?edit=$id";
+        // $app->update($query, $arr, $path);
+        if (move_uploaded_file($_FILES['checkofficephoto']['tmp_name'], $dir)) {
+            $app->update($query, $arr, $path);
+        }
+
+
+    }
+}
+
+?>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid my-2">
+            <div class="row mb-2">
+                <!-- <div class="col-sm-6">
+                    <h1>Accounts</h1>
+                </div> -->
+
+                <?php require "navbar.php"; ?>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header pt-3">
+                    <h1 class="h5 mb-3"><b>Slide 1 Landscape Image Display</h1>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- /.Personal Details -->
+
+                        <?php if (isset($_GET['edit'])) {
+                            $id = $_GET['edit'];
+                            $query = "SELECT * FROM mktgeventdisplay where id='$id'";
+                            $app = new App;
+                            $description1s = $app->selectAll($query); ?>
+                            <div class="col-md-4 mb-3 ">
+                                <form method="POST" action="index.php" enctype="multipart/form-data">
+                                    <?php foreach ($description1s as $description1): ?>
+                                        <div class="col-md-12 mb-3">
+
+                                            <div class="form-group row">
+                                                <label for="colFormLabelSm"
+                                                    class="col-sm-3 col-form-label col-form-label-sm">Title</label>
+                                                <div class="col-sm-8">
+                                                    <input type="hidden" class="form-control form-control-sm"
+                                                        id="colFormLabelSm" name="id" value="<?php echo $description1->id ?>">
+
+                                                    <input type="text" class="form-control form-control-sm" id="colFormLabelSm"
+                                                        name="title" value="<?php echo $description1->title ?>">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+
+                                            <div class="form-group row">
+                                                <label for="colFormLabelSm"
+                                                    class="col-sm-3 col-form-label col-form-label-sm">Descriptions</label>
+
+                                                <div class="col-sm-8">
+                                                    <textarea name="description" class="form-control form-control-sm"
+                                                        style="height: 150px;  resize: none;"
+                                                        id="colFormLabelSm"><?php echo $description1->description ?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-md-12 mb-3">
+                                            <div class="form-group row">
+                                                <label for="colFormLabelSm"
+                                                    class="col-sm-3 col-form-label col-form-label-sm">Photo</label>
+                                                <div class="col-sm-8">
+                                                    <label for="checkofficephoto">Upload Photo:</label>
+                                                    <input type="file" name="checkofficephoto" id="checkofficephoto"
+                                                        class="form-control-file border">
+                                                    <input type="hidden" name="edit"
+                                                        value="<?php echo htmlspecialchars($description1->id); ?>">
+                                                    <hr>
+                                                    <div style="">
+                                                        <img src="<?php echo htmlspecialchars(APPURL); ?>img/mktg/eventlogo/<?php
+                                                           if ($description1->checkofficephoto == NULL) { // Assuming checkofficephoto stores the main asset checkofficephoto
+                                                               echo 'bg.png';
+                                                           } else {
+                                                               echo htmlspecialchars($description1->checkofficephoto);
+                                                           }
+                                                           ?>" style="width:100%;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+
+                                            <div class="form-group row">
+                                                <label for="colFormLabelSm"
+                                                    class="col-sm-3 col-form-label col-form-label-sm">Display
+                                                    Location</label>
+                                                <div class="col-sm-8">
+
+
+                                                    <select class="custom-select" name="eventcategoryid">
+
+                                                        <?php
+                                                        $query = "SELECT * FROM mktgeventcategory WHERE id='$description1->eventcategoryid '";
+                                                        $app = new App;
+                                                        $discategorys = $app->selectAll($query);
+                                                        ?>
+                                                        <?php foreach ($discategorys as $discategory): ?>
+                                                            <option value="<?php echo $discategory->id ?>">
+                                                                <?php echo $discategory->location ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                        <?php
+                                                        $query = "SELECT * FROM mktgeventcategory";
+                                                        $app = new App;
+                                                        $discategorys = $app->selectAll($query);
+                                                        ?>
+                                                        <?php foreach ($discategorys as $discategory): ?>
+                                                            <option value="<?php echo $discategory->id ?>">
+                                                                <?php echo $discategory->location ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <div class="form-group row">
+                                                <label for="colFormLabelSm"
+                                                    class="col-sm-3 col-form-label col-form-label-sm">Start Date</label>
+                                                <div class="col-sm-8">
+                                                    <input type="date" class="form-control form-control-sm" id="colFormLabelSm"
+                                                        name="startdate" value="<?php echo $description1->enddate ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <div class="form-group row">
+                                                <label for="colFormLabelSm"
+                                                    class="col-sm-3 col-form-label col-form-label-sm">End Date</label>
+                                                <div class="col-sm-8">
+                                                    <input type="date" class="form-control form-control-sm" id="colFormLabelSm"
+                                                        name="enddate" value="<?php echo $description1->enddate ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pb-5 pt-3">
+                                            <button class="btn btn-primary" type="submit" name="submit">Update</button>
+                                            <a href="index.php" class="btn btn-outline-dark ml-3">Close</a>
+
+                                        </div>
+                                    <?php endforeach; ?>
+                                </form>
+                            </div>
+
+                        <?php } else { ?>
+                            <div class="col-md-4 mb-3 ">
+                                <form method="POST" action="index.php" enctype="multipart/form-data">
+                                    <div class="col-md-12 mb-3">
+
+                                        <div class="form-group row">
+                                            <label for="colFormLabelSm"
+                                                class="col-sm-3 col-form-label col-form-label-sm">Title</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control form-control-sm" id="colFormLabelSm"
+                                                    name="title">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+
+                                        <div class="form-group row">
+                                            <label for="colFormLabelSm"
+                                                class="col-sm-3 col-form-label col-form-label-sm">Desciptions</label>
+                                            <div class="col-sm-8">
+                                                <textarea name="description" class="form-control form-control-sm"
+                                                    style="height: 150px;  resize: none;" id="colFormLabelSm"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <div class="form-group row">
+                                            <label for="colFormLabelSm"
+                                                class="col-sm-3 col-form-label col-form-label-sm">Photo</label>
+                                            <div class="col-sm-8">
+                                                <label for="checkofficephoto">Upload Photo:</label>
+                                                <input type="file" name="checkofficephoto" id="checkofficephoto"
+                                                    class="form-control-file border">
+
+                                                <hr>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+                                    <div class="col-md-12 mb-3">
+
+                                        <div class="form-group row">
+                                            <label for="colFormLabelSm"
+                                                class="col-sm-3 col-form-label col-form-label-sm">Display
+                                                Location</label>
+                                            <div class="col-sm-8">
+                                                <select class="custom-select" name="eventcategoryid">
+                                                    <?php
+                                                    $query = "SELECT * FROM mktgeventcategory";
+                                                    $app = new App;
+                                                    $discategorys = $app->selectAll($query);
+                                                    ?>
+                                                    <?php foreach ($discategorys as $discategory): ?>
+                                                        <option value="<?php echo $discategory->id ?>">
+                                                            <?php echo $discategory->location ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 mb-3">
+                                        <div class="form-group row">
+                                            <label for="colFormLabelSm"
+                                                class="col-sm-3 col-form-label col-form-label-sm">Start
+                                                Date</label>
+                                            <div class="col-sm-8">
+                                                <input type="date" class="form-control form-control-sm" id="colFormLabelSm"
+                                                    name="startdate">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <div class="form-group row">
+                                            <label for="colFormLabelSm"
+                                                class="col-sm-3 col-form-label col-form-label-sm">End
+                                                Date</label>
+                                            <div class="col-sm-8">
+                                                <input type="date" class="form-control form-control-sm" id="colFormLabelSm"
+                                                    name="enddate">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pb-5 pt-3">
+                                        <button class="btn btn-primary" type="submit" name="save">Save</button>
+                                        <!-- <a href="userslist.php" class="btn btn-outline-dark ml-3">Close</a> -->
+
+                                    </div>
+
+                                </form>
+                            </div>
+                        <?php } ?>
+                        <div class="col-md-8 mb-3 ">
+
+                            <div class="col-md-12 ">
+                                <h4 class="mb-3 text-primary">List of Events Display
+                                    --------------------------
+                                </h4>
+
+                                <?php
+                                $currentdate = date("m-d-Y");
+                                $query = "SELECT * FROM mktgeventdisplay ";
+                                $app = new App;
+                                $description = $app->selectAll($query);
+                                ?>
+                                <table class="table table-striped " style="width:100%" id="history">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>ID</th>
+                                            <th>Location</th>
+                                            <th>Title</th>
+                                            <th>Desciptions</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Photo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($description as $descriptionlist): ?>
+
+                                            <tr>
+
+                                                <td>
+                                                    <a style="text-decoration:none;"
+                                                        href="index.php?edit=<?php echo $descriptionlist->id ?>"
+                                                        class="text-success">
+                                                        <i class="nav-icon fas fa fa-edit"></i>
+                                                    </a> |
+                                                    <a style="text-decoration:none;"
+                                                        href="index.php?delete=<?php echo $descriptionlist->id ?>"
+                                                        class="text-danger">
+                                                        <i class="nav-icon fas fa fa-trash"></i>
+
+                                                    </a>
+
+                                                </td>
+                                                <td><?php echo $descriptionlist->id ?></td>
+                                                <td><?php
+                                                $query = "SELECT * FROM mktgeventcategory where id=$descriptionlist->eventcategoryid";
+                                                $app = new App;
+                                                $loccategorys = $app->selectAll($query);
+                                                foreach ($loccategorys as $loccategory):
+                                                    echo $loccategory->location;
+
+                                                endforeach;
+
+
+                                                ?></td>
+                                                <td><?php echo $descriptionlist->title ?></td>
+                                                <td><?php echo $descriptionlist->description ?></td>
+                                                <td><?php echo $descriptionlist->startdate ?></td>
+                                                <td><?php echo $descriptionlist->enddate ?></td>
+                                                <td><img src="<?php echo APPURL; ?>img/mktg/eventlogo/<?php echo $descriptionlist->checkofficephoto ?>"
+                                                        style="width:100px;"></td>
+
+                                            </tr>
+
+
+                                        <?php endforeach; ?>
+                                    </tbody>
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('#history').DataTable({
+                                                "pageLength": 10,
+                                                dom: 'Bfrtip',
+                                                buttons: [
+                                                    'copy', 'csv', 'excel', 'pdf', 'print'
+                                                ]
+
+
+                                            });
+
+
+
+                                        });
+
+
+
+
+
+
+                                        $('#history [data-toggle="tooltip"]').tooltip({
+                                            animated: 'fade',
+                                            placement: 'bottom',
+                                            html: true
+                                        });
+                                    </script>
+                                </table>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<?php require "../../footer1.php"; ?>

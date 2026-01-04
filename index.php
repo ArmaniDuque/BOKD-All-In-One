@@ -29,7 +29,7 @@
         <div class="mb-8">
             <p class="text-gray-300 text-lg">
                 Hello! I am <span class="text-white font-bold underline decoration-blue-500">Armani Duque</span>,
-                your IT specialist.
+                your IT Specialist Officer.
             </p>
             <p class="text-gray-400 mt-2 italic text-sm">
                 Need assistance? Feel free to contact me for any technical support.
@@ -42,7 +42,7 @@
                 Access Login Page
             </a>
 
-            <a href="mailto:your-email@example.com" class="text-gray-400 hover:text-white text-sm transition">
+            <a href="mailto:it@felizhotelboracay.com" class="text-gray-400 hover:text-white text-sm transition">
                 Contact Armani Duque →
             </a>
         </div>
