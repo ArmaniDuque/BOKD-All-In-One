@@ -393,7 +393,7 @@
         const SHEET_CSV_URL =
             "https://docs.google.com/spreadsheets/d/e/2PACX-1vTlK_3vTjh5mF1aInYXdzzPxQWLgRD7Mw9F87VH6jkf-TTU5pqFyk9mqhHR5pQyDhBCaa2rZpfIadr5/pub?gid=0&single=true&output=csv";
         const APPS_SCRIPT_URL = "YOUR_APPS_SCRIPT_URL_HERE";
-        const targetDate = new Date("Jan 1, 2026 00:00:00").getTime();
+        const targetDate = new Date("Jan 1, 2027 00:00:00").getTime();
         const SERVER_IP = "time.php"; // Update path as needed
 
         let families = ["Feliz Hotel Family"];
