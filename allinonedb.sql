@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2026 at 11:01 AM
+-- Generation Time: Jan 05, 2026 at 04:24 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -10719,11 +10719,10 @@ INSERT INTO `mktgdisplay` (`id`, `title`, `description`, `discategoryid`, `categ
 (15, 'Hydration Reminder', 'Staying hydrated is key in the sun! Remember to drink plenty of water throughout the day. Complimentary water stations are available.', '1', '3', '2026-01-01', '2026-01-31', '', '3', '2026-01-02 03:11:13'),
 (16, 'Booking Excursions Made Easy', 'Tip: Plan your adventures hassle-free! Visit our Tour Desk in the lobby to book exciting excursions and activities.', '1', '3', '2026-01-01', '2026-01-31', '', '3', '2026-01-02 03:11:13'),
 (17, 'Beach Bonfire & S\'mores', 'Join us for a cozy Beach Bonfire tonight, July 1, 2025, at 7:00 PM by the main beach. S\'mores kits provided!', '1', '4', '2026-01-01', '2026-01-31', '', '3', '2026-01-02 03:11:13'),
-(18, 'Morning Yoga Session', 'Start your day with tranquility! Complimentary Morning Yoga at the Ocean Deck, daily at 7:00 AM. Mats provided.', '1', '4', '2026-01-01', '2026-01-31', '', '3', '2026-01-02 03:11:13'),
+(18, 'Morning Yoga Session', 'Start your day with tranquility! Complimentary Morning Yoga at the Ocean Deck, daily at 7:00 AM. Mats provided.', '1', '4', '2026-01-01', '2026-01-31', '1.jpg', '3', '2026-01-02 11:16:50'),
 (19, 'Live Acoustic Night', 'Enjoy a relaxing evening with live acoustic music at the Sandbar Lounge, every night from 8:00 PM to 10:00 PM.', '1', '4', '2026-01-01', '2026-01-31', '', '3', '2026-01-02 03:11:13'),
 (20, 'Kids\' Craft Hour', 'Creative fun for the little ones! Kids\' Craft Hour at the Kids\' Club, today at 3:00 PM. All materials supplied.', '1', '4', '2026-01-01', '2026-01-31', '', '3', '2026-01-02 03:11:13'),
-(24, 'Armani', 'Armani Duque', '1', '1', '2026-01-01', '2026-01-31', 'default.png', '3', '2026-01-02 03:11:13'),
-(26, 'Landscape Slide 0', 'Landscape Slide 0', '1', '1', '2026-01-01', '2026-01-31', 'ForPlaying_FO-TV_LED_4Nov2025.mp4', '1', '2026-01-02 05:35:26'),
+(26, 'Landscape Slide 0', 'Landscape Slide 0', '1', '1', '2026-01-01', '2026-01-31', 'TV_LED_4Nov2025.mp4', '1', '2026-01-02 11:17:12'),
 (27, 'Landscape Slide 1', 'Landscape Slide 2', '1', '1', '2026-01-01', '2026-01-31', '1.jpg', '1', '2026-01-02 05:35:02'),
 (28, 'Landscape Slide 2', 'Landscape Slide 3', '1', '1', '2026-01-01', '2026-01-31', '2.jpg', '1', '2026-01-02 05:35:02'),
 (29, 'Landscape Slide 3', 'Landscape Slide 4', '1', '1', '2026-01-01', '2026-01-31', '3.jpg', '1', '2026-01-02 05:35:02'),
@@ -10759,7 +10758,8 @@ INSERT INTO `mktgdisplay` (`id`, `title`, `description`, `discategoryid`, `categ
 (89, '1', '1', '1', '1', '2026-01-01', '2026-01-30', 'logo.png', '1', '2026-01-02 06:51:59'),
 (90, '2', '2', '1', '1', '2026-02-07', '2026-02-07', '506530930_1863056871123071_5444521696895690448_n.jpg', '1', '2026-01-02 06:53:10'),
 (92, 'test1', 'test1', '1', '1', '2026-01-02', '2026-01-31', 'Feliz-Wedding-Packages_page-0001-768x994.jpg', '2', '2026-01-02 07:09:55'),
-(97, '1', '1', '1', '1', '2026-01-02', '2026-01-31', 'viber_image_2025-12-19_14-37-38-257-819x1024.jpg', '2', '2026-01-02 07:18:08');
+(97, '1', '1', '1', '1', '2026-01-02', '2026-01-31', 'viber_image_2025-12-19_14-37-38-257-819x1024.jpg', '2', '2026-01-02 07:18:08'),
+(99, 'LaDulce Cabana', 'LaDulce Cabana', '1', '1', '2026-01-02', '2026-01-10', 'IMG_3139-819x1024.jpg', '1', '2026-01-02 14:50:17');
 
 -- --------------------------------------------------------
 
@@ -10834,6 +10834,58 @@ INSERT INTO `mktgdisplay_montemar` (`id`, `title`, `description`, `discategoryid
 (51, 'Portrait Slide 8', 'Portrait Slide 8', '1', '1', '2025-01-01', '2026-01-31', '9.jpg', '2', '2026-01-02 02:37:31'),
 (52, 'Landscape Slide 11', 'DPO Certificate', '1', '2', '2025-01-01', '2026-01-31', 'Certificate.png', '1', '2026-01-02 02:37:31'),
 (53, 'Feliz Hotel Boracay', 'Feliz Hotel Boracay', '1', '1', '2026-01-01', '2026-01-31', 'felizlaptopbg.jpg', '1', '2026-01-02 02:51:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mktgeventcategory`
+--
+
+CREATE TABLE `mktgeventcategory` (
+  `id` int(11) NOT NULL,
+  `location` varchar(100) NOT NULL,
+  `links` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mktgeventcategory`
+--
+
+INSERT INTO `mktgeventcategory` (`id`, `location`, `links`, `created_at`) VALUES
+(5, 'LA PLAZA', 'LA PLAZA', '2026-01-04 11:27:54'),
+(6, 'BUENAVISTA', 'BUENAVISTA', '2026-01-04 11:28:06'),
+(7, 'ALFRESCO', 'ALFRESCO', '2026-01-04 11:28:18'),
+(8, 'CONFERENCE', 'CONFERENCE', '2026-01-04 11:28:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mktgeventdisplay`
+--
+
+CREATE TABLE `mktgeventdisplay` (
+  `id` int(11) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `description` varchar(250) NOT NULL,
+  `eventcategoryid` varchar(250) NOT NULL,
+  `startdate` varchar(250) NOT NULL,
+  `enddate` varchar(250) NOT NULL,
+  `checkofficephoto` varchar(250) NOT NULL,
+  `slidecategory` varchar(250) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mktgeventdisplay`
+--
+
+INSERT INTO `mktgeventdisplay` (`id`, `title`, `description`, `eventcategoryid`, `startdate`, `enddate`, `checkofficephoto`, `slidecategory`, `created_at`) VALUES
+(101, 'Feliz Hotel Boracay Town Hall Bueanavista', 'Feliz Hotel Boracay Town Hall Bueanavista', '6', '2026-01-16', '2026-01-16', 'logo-feliz-colored.png', '1', '2026-01-04 11:56:50'),
+(102, 'Feliz Hotel Boracay Town Hall La Plaza', 'Feliz Hotel Boracay Town Hall La Plaza', '5', '2026-01-04', '2026-02-04', 'la-plaza-logo-1-ohpyleths19403xlxr5ja4r7r2dos3fq095dcjnzrw.jpg', '0', '2026-01-04 12:46:58'),
+(103, 'Feliz Hotel Boracay Town Hall Conference', 'Feliz Hotel Boracay Town Hall Conference', '8', '2026-01-18', '2026-01-18', 'feliz-hotel-boracay-la-plaza.jpg', '0', '2026-01-04 12:06:47'),
+(104, 'Feliz Hotel Boracay Town Hall Alfresco', 'Feliz Hotel Boracay Town Hall Alfresco', '7', '2026-01-19', '2026-01-19', 'La-Plaza-2.jpg', '0', '2026-01-04 12:07:14'),
+(105, 'Test Event Display Today Buenavista', 'Test Event Display Today Buenavista', '6', '2026-01-04', '2026-01-04', 'feliz-hotel-boracay-la-plaza.jpg', '0', '2026-01-04 12:54:29');
 
 -- --------------------------------------------------------
 
@@ -12264,6 +12316,18 @@ ALTER TABLE `mktgdisplay_montemar`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `mktgeventcategory`
+--
+ALTER TABLE `mktgeventcategory`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `mktgeventdisplay`
+--
+ALTER TABLE `mktgeventdisplay`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `name`
 --
 ALTER TABLE `name`
@@ -12572,13 +12636,25 @@ ALTER TABLE `mktgdiscategory`
 -- AUTO_INCREMENT for table `mktgdisplay`
 --
 ALTER TABLE `mktgdisplay`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `mktgdisplay_montemar`
 --
 ALTER TABLE `mktgdisplay_montemar`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+--
+-- AUTO_INCREMENT for table `mktgeventcategory`
+--
+ALTER TABLE `mktgeventcategory`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `mktgeventdisplay`
+--
+ALTER TABLE `mktgeventdisplay`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT for table `name`
