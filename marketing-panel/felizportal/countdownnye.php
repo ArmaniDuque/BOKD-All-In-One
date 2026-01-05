@@ -300,7 +300,7 @@
 
         // 2. SERVER TIME SYNC LOGIC
         let timeOffset = 0;
-        const targetDate = new Date("Jan 1, 2026 00:00:00").getTime();
+        const targetDate = new Date("Jan 1, 2027 00:00:00").getTime();
 
         async function syncWithServer() {
             try {

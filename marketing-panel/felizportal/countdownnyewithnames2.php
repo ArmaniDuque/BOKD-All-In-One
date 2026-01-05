@@ -391,7 +391,7 @@
         ];
 
         // 2. CONFIG & SYNC
-        const targetDate = new Date("Jan 1, 2026 00:00:00").getTime();
+        const targetDate = new Date("Jan 1, 2027 00:00:00").getTime();
         let guestIndex = 0;
         let serverTimeOffset = 0;
 
