@@ -96,7 +96,6 @@
             color: white;
             text-align: center;
             pointer-events: none;
-            /* Mouse passes through to parallax layer */
         }
 
         .company-logo {
@@ -140,7 +139,45 @@
             text-transform: uppercase;
             letter-spacing: 5px;
             color: #ffd700;
-            /* Gold accents */
+        }
+
+        /* NEW: BIG SCREEN FLASHING SECONDS */
+        #big-seconds-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            /* Hidden by default */
+        }
+
+        #big-seconds-text {
+            font-size: 50rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 50px #ff0000, 0 0 100px #ffd700;
+            animation: flash-red 1s infinite;
+        }
+
+        @keyframes flash-red {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+                color: #ff4d4d;
+            }
         }
 
         #celebration-text {
@@ -156,7 +193,6 @@
             display: none;
         }
 
-        /* Animation for Fireworks text */
         .animate-pop {
             animation: popIn 1s cubic-bezier(0.17, 0.89, 0.32, 1.49) forwards;
         }
@@ -185,11 +221,30 @@
             .company-logo {
                 width: 280px;
             }
+
+            #big-seconds-text {
+                font-size: 20rem;
+            }
+        }
+
+        #sync-status {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            z-index: 100;
         }
     </style>
 </head>
 
 <body>
+
+    <div id="sync-status">Syncing with server...</div>
+
+    <div id="big-seconds-wrap">
+        <div id="big-seconds-text">60</div>
+    </div>
 
     <div id="start-overlay">
         <button id="start-btn">BEGIN COUNTDOWN</button>
@@ -206,11 +261,11 @@
     <canvas id="snow-canvas"></canvas>
 
     <div class="background-container" id="bg-parallax">
-        <img src="bg.jpg" class="bg-media" alt="Background">
+        <img src="../bg.jpg" class="bg-media" alt="Background">
     </div>
 
     <div class="content">
-        <img src="FelizLogo.png" alt="Logo" class="company-logo" id="logo-parallax">
+        <img src="../FelizLogo.png" alt="Logo" class="company-logo" id="logo-parallax">
 
         <div id="countdown-wrap">
             <div id="timer">
@@ -229,7 +284,7 @@
             </div>
         </div>
 
-        <h1 id="celebration-text" class="hidden">Happy New Year!</h1>
+        <h1 id="celebration-text" class="hidden">Merry Christmas!</h1>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -239,12 +294,33 @@
         document.addEventListener('mousemove', (e) => {
             const x = (window.innerWidth / 2 - e.pageX) / 50;
             const y = (window.innerHeight / 2 - e.pageY) / 50;
-
             document.getElementById('bg-parallax').style.transform = `translate(${x}px, ${y}px)`;
             document.getElementById('logo-parallax').style.transform = `translate(${-x}px, ${-y}px)`;
         });
 
-        // 2. AUDIO & START
+        // 2. SERVER TIME SYNC LOGIC
+        let timeOffset = 0;
+        const targetDate = new Date("Dec 25, 2027 00:00:00").getTime();
+
+        async function syncWithServer() {
+            try {
+                const start = Date.now();
+                const response = await fetch('time1.php');
+                const data = await response.json();
+                const end = Date.now();
+                const latency = (end - start) / 2;
+                const serverTimeAtArrival = data.serverTime + latency;
+                timeOffset = serverTimeAtArrival - Date.now();
+                document.getElementById('sync-status').innerText = "✓ Synced with Server (10.60.0.15)";
+            } catch (err) {
+                document.getElementById('sync-status').innerText = "⚠ Sync Failed. Using Local Clock.";
+            }
+        }
+
+        syncWithServer();
+        setInterval(syncWithServer, 300000);
+
+        // 3. AUDIO & START
         const startBtn = document.getElementById('start-btn');
         startBtn.addEventListener('click', () => {
             document.getElementById('start-overlay').style.opacity = '0';
@@ -254,11 +330,9 @@
             }, 800);
         });
 
-        // 3. COUNTDOWN & FIREWORKS
-        const targetDate = new Date("Jan 1, 2026 00:00:00").getTime();
-
-        const countdown = setInterval(() => {
-            const now = new Date().getTime();
+        // 4. COUNTDOWN & FIREWORKS
+        const countdownInterval = setInterval(() => {
+            const now = Date.now() + timeOffset;
             const distance = targetDate - now;
 
             const d = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -271,17 +345,32 @@
             document.getElementById("minutes").innerText = m.toString().padStart(2, '0');
             document.getElementById("seconds").innerText = s.toString().padStart(2, '0');
 
+            // TRIGGER BIG SECONDS FLASH (FINAL 60 SECONDS)
+            const bigSecsWrap = document.getElementById('big-seconds-wrap');
+            const bigSecsText = document.getElementById('big-seconds-text');
+
+            if (distance > 0 && distance <= 60000) {
+                bigSecsWrap.style.display = 'flex';
+                bigSecsText.innerText = s.toString();
+                // Hide normal logo and countdown to focus on big numbers
+                document.getElementById('countdown-wrap').style.opacity = '0';
+                document.getElementById('logo-parallax').style.opacity = '0.2';
+            } else {
+                bigSecsWrap.style.display = 'none';
+            }
+
             if (distance < 0) {
-                clearInterval(countdown);
+                clearInterval(countdownInterval);
+                bigSecsWrap.style.display = 'none'; // Hide big seconds
                 document.getElementById("countdown-wrap").classList.add("hidden");
                 const celeb = document.getElementById("celebration-text");
                 celeb.classList.remove("hidden");
                 celeb.classList.add("animate-pop");
+                document.getElementById('logo-parallax').style.opacity = '1';
 
                 document.getElementById('bg-music').pause();
                 document.getElementById('fireworks-sound').play();
 
-                // Firework Loop
                 const end = Date.now() + (15 * 1000);
                 (function frame() {
                     confetti({
@@ -305,9 +394,9 @@
                     if (Date.now() < end) requestAnimationFrame(frame);
                 }());
             }
-        }, 1000);
+        }, 100);
 
-        // 4. ADVANCED SNOW (With Drifting Sparkles)
+        // 5. ADVANCED SNOW
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -318,7 +407,6 @@
         }
         window.addEventListener('resize', resize);
         resize();
-
         class Particle {
             constructor() {
                 this.reset();
@@ -343,7 +431,6 @@
                 ctx.fill();
             }
         }
-
         for (let i = 0; i < 150; i++) particles.push(new Particle());
 
         function animate() {

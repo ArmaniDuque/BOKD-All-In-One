@@ -62,7 +62,7 @@
 
         /* Ken Burns Effect for active image slides */
         .slide.active[data-type="image"] .image-content {
-            animation: kenBurnsForward 15s ease-in-out forwards;
+            /* animation: kenBurnsForward 5s ease-in-out forwards; */
         }
 
         @keyframes kenBurnsForward {
@@ -71,7 +71,7 @@
             }
 
             100% {
-                transform: scale(1.1);
+                transform: scale(1);
             }
         }
 
@@ -190,10 +190,12 @@
     </div>
 
     <div id="slideshow-container">
-        <div class="slide active" data-type="image" data-duration="8000">
-            <div class="image-content" style="background-image: url('../../../img/mktg/landscape/felizlaptopbg.jpg');">
+       <div class="slide active" data-type="image" data-duration="8000">
+            <div class="image-content" style="background-image: url('../../../img/mktg/landscape/JMLevents.jpg');">
             </div>
-        </div>
+            <!-- <div class="slide" data-type="image" data-duration="8000">
+            <div class="image-content" style="background-image: url('../../../img/mktg/landscape/JMLevents.jpg');">
+            </div> -->
 
         <!-- <?php
         // $currentdate = date("Y-m-d");
@@ -217,9 +219,7 @@
                         style="background-image: url('../../../img/mktg/landscape/<?php echo $file; ?>');"></div>
                 </div> -->
 
-        <div class="slide" data-type="image" data-duration="8000">
-            <div class="image-content" style="background-image: url('../../../img/mktg/landscape/JMLevents.jpg');">
-            </div>
+        
         </div>
         <?php //endif; ?>
         <? php// endforeach; ?>
@@ -270,7 +270,7 @@
                 video.play();
                 video.onended = () => playNext();
             } else {
-                const duration = parseInt(nextItem.getAttribute('data-duration')) || 8000;
+                const duration = parseInt(nextItem.getAttribute('data-duration')) || 1000;
                 slideTimeout = setTimeout(playNext, duration);
             }
         }
@@ -302,7 +302,7 @@
             update() {
                 this.y += this.speedY;
                 this.opacity -= this.fade;
-                if (this.opacity <= 0 || this.y < -10) this.init();
+                if (this.opacity <= 0 || this.y < -5) this.init();
             }
             draw() {
                 ctx.beginPath();
@@ -333,7 +333,7 @@
                 v.play();
                 v.onended = () => playNext();
             } else {
-                setTimeout(playNext, 7000);
+                setTimeout(playNext, 1000);
             }
         });
     </script>

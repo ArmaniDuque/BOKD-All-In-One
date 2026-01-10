@@ -92,13 +92,70 @@
         .company-logo {
             width: 800px;
             max-width: 90vw;
-            margin-bottom: 20px;
+            margin-bottom: -40px;
             transition: all 1s ease;
+        }
+
+        /* Fullscreen Schedule */
+        #schedule-box {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.5s;
+            pointer-events: none;
+        }
+
+        #schedule-box.show {
+            opacity: 2;
+            visibility: visible;
+        }
+
+        .sched-title {
+            font-size: 5rem;
+            color: #ff69b4;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .sched-date {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #ffd700;
+            padding-bottom: 20px;
+            width: 80%;
+        }
+
+        .sched-item {
+            font-size: 2.5rem;
+            margin: 25px 0;
+            display: flex;
+            width: 80%;
+            justify-content: flex-start;
+            text-align: left;
+        }
+
+        .sched-time {
+            color: #ffd700;
+            font-weight: bold;
+            margin-right: 40px;
+            min-width: 350px;
         }
 
         /* Names & Timer */
         .thank-you-container {
-            margin-bottom: 30px;
+            margin-bottom: 3px;
             transition: opacity 0.5s ease;
         }
 
@@ -107,7 +164,7 @@
             font-weight: 400;
             color: #ffffff;
             letter-spacing: 2px;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         #family-names {
@@ -115,7 +172,6 @@
             font-weight: 800;
             color: #ffd700;
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-            transition: opacity 0.5s ease;
         }
 
         #timer {
@@ -181,6 +237,7 @@
         }
 
         .last-minute .thank-you-container,
+        .last-minute #schedule-box,
         .last-minute #raffle-btn {
             display: none !important;
             opacity: 0 !important;
@@ -290,11 +347,21 @@
     </audio>
     <canvas id="snow-canvas"></canvas>
 
-    <div class="background-container"><img src="bg.jpg" class="bg-media"></div>
+    <div class="background-container"><img src="../bg.jpg" class="bg-media"></div>
 
     <div class="content" id="main-content">
-        <img src="FelizLogo.png" alt="Logo" class="company-logo" id="logo-parallax">
-        <h1 id="celebration-text" class="hidden">Happy New Year!</h1>
+        <img src="../FelizLogo.png" alt="Logo" class="company-logo" id="logo-parallax">
+
+        <div id="schedule-box">
+            <div class="sched-title">La Dulce Navidad</div>
+            <div class="sched-date">DECEMBER 31, 2025 | 7PM - 12MN</div>
+            <div class="sched-item"><span class="sched-time">7:00PM</span> Dinner Buffet | DJ Q2</div>
+            <div class="sched-item"><span class="sched-time">8:00PM</span> Full Band Performance</div>
+            <div class="sched-item"><span class="sched-time">8:30PM</span> Band and Raffle</div>
+            <div class="sched-item"><span class="sched-time">9:30PM</span> Fire Dance</div>
+            <div class="sched-item"><span class="sched-time">10:00PM</span> Full Band Performance</div>
+        </div>
+
         <div class="thank-you-container" id="names-box">
             <div id="fixed-thanks">Thank you for joining us !!</div>
             <div id="family-names">Feliz Hotel Family</div>
@@ -302,61 +369,64 @@
 
         <div id="countdown-wrap">
             <div id="timer">
-                <div class="time-block">
-                    <span id="days">00</span>
+                <div class="time-block"><span id="days">00</span>
                     <p>Days</p>
                 </div>
-                <div class="time-block">
-                    <span id="hours">00</span>
+                <div class="time-block"><span id="hours">00</span>
                     <p>Hours</p>
                 </div>
-                <div class="time-block">
-                    <span id="minutes">00</span>
+                <div class="time-block"><span id="minutes">00</span>
                     <p>Mins</p>
                 </div>
-                <div class="time-block seconds-block">
-                    <span id="seconds">00</span>
+                <div class="time-block seconds-block"><span id="seconds">00</span>
                     <p>Secs</p>
                 </div>
             </div>
         </div>
-
+        <h1 id="celebration-text" class="hidden">Merry Christmas!</h1>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
+        // CONFIGURATION
         const SHEET_CSV_URL =
             "https://docs.google.com/spreadsheets/d/e/2PACX-1vTlK_3vTjh5mF1aInYXdzzPxQWLgRD7Mw9F87VH6jkf-TTU5pqFyk9mqhHR5pQyDhBCaa2rZpfIadr5/pub?gid=0&single=true&output=csv";
         const APPS_SCRIPT_URL = "YOUR_APPS_SCRIPT_URL_HERE";
-        const targetDate = new Date("Jan 1, 2026 00:00:00").getTime();
-        const SERVER_IP = "time.php";
+        const targetDate = new Date("Dec 25, 2027 00:00:00").getTime();
+        const SERVER_IP = "time.php"; // Update path as needed
 
         let families = ["Feliz Hotel Family"];
         let isLastMinute = false;
         let familyIndex = 0;
         let serverTimeOffset = 0;
 
+        // --- NEW SERVER SYNC LOGIC ---
         async function syncTimeWithServer() {
             const syncOverlay = document.getElementById('sync-overlay');
             try {
                 const start = performance.now();
+                // We request time from your specific server IP
                 const response = await fetch(SERVER_IP);
                 const data = await response.json();
                 const end = performance.now();
+
                 const latency = (end - start) / 2;
                 const actualServerTime = new Date(data.datetime).getTime() + latency;
+
                 serverTimeOffset = actualServerTime - Date.now();
-                syncOverlay.innerText = "✓ SYNCED WITH SERVER";
+                syncOverlay.innerText = "✓ SYNCED WITH 10.60.0.15";
                 syncOverlay.style.color = "#0f0";
             } catch (e) {
+                console.error("Sync Error:", e);
                 syncOverlay.innerText = "⚠ SYNC FAILED: USING LOCAL PC TIME";
                 syncOverlay.style.color = "#f00";
             }
         }
         syncTimeWithServer();
-        setInterval(syncTimeWithServer, 600000);
+        setInterval(syncTimeWithServer, 600000); // Re-sync every 10 minutes
 
+        // FETCH NAMES
         async function fetchNames() {
             try {
                 const res = await fetch(SHEET_CSV_URL);
@@ -368,6 +438,7 @@
             }
         }
 
+        // RAFFLE
         function openRaffle() {
             document.getElementById('raffle-modal').style.display = 'flex';
             let shuffleCount = 0;
@@ -386,6 +457,13 @@
                         },
                         colors: ['#ffd700', '#ffffff']
                     });
+                    fetch(APPS_SCRIPT_URL, {
+                        method: "POST",
+                        mode: "no-cors",
+                        body: JSON.stringify({
+                            winner
+                        })
+                    });
                 }
             }, 100);
         }
@@ -394,12 +472,23 @@
             document.getElementById('raffle-modal').style.display = 'none';
         }
 
+        // START
         document.getElementById('start-btn').addEventListener('click', () => {
             document.getElementById('start-overlay').style.display = 'none';
             document.getElementById('bg-music').play();
             fetchNames();
             setInterval(fetchNames, 300000);
-            // AUTO-SCHEDULE SWITCHING LOGIC REMOVED
+
+            setInterval(() => {
+                if (!isLastMinute && !document.body.classList.contains('celebrating')) {
+                    document.getElementById('schedule-box').classList.add('show');
+                    document.getElementById('names-box').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('schedule-box').classList.remove('show');
+                        if (!isLastMinute) document.getElementById('names-box').style.opacity = '1';
+                    }, 20000);
+                }
+            }, 60000);
         });
 
         // NAME ROTATION
@@ -409,12 +498,14 @@
             setTimeout(() => {
                 familyIndex = (familyIndex + 1) % families.length;
                 el.innerText = families[familyIndex];
-                el.style.opacity = 1;
+                if (!document.getElementById('schedule-box').classList.contains('show')) el.style.opacity =
+                    1;
             }, 500);
         }, 3000);
 
         // COUNTDOWN
         setInterval(() => {
+            // USES THE SYNCED TIME
             const now = Date.now() + serverTimeOffset;
             const distance = targetDate - now;
 
@@ -426,6 +517,7 @@
             if (distance > 0 && distance < 60000) {
                 isLastMinute = true;
                 document.body.classList.add('last-minute');
+                document.getElementById('schedule-box').classList.remove('show');
             } else {
                 isLastMinute = false;
                 document.body.classList.remove('last-minute');
@@ -441,15 +533,16 @@
                 document.getElementById("countdown-wrap").classList.add("hidden");
                 document.getElementById("logo-parallax").classList.add("hidden");
                 document.getElementById("celebration-text").classList.remove("hidden");
+                document.getElementById("main-content").appendChild(document.getElementById("names-box"));
                 document.getElementById("names-box").style.opacity = '1';
                 document.getElementById('bg-music').pause();
                 document.getElementById('fireworks-sound').play();
 
-                const end = Date.now() + 2000000;
+                const end = Date.now() + 20000;
                 const fireworks = setInterval(() => {
                     if (Date.now() > end) clearInterval(fireworks);
                     confetti({
-                        particleCount: 200,
+                        particleCount: 80,
                         spread: 360,
                         origin: {
                             x: Math.random(),
@@ -457,11 +550,11 @@
                         },
                         zIndex: -1
                     });
-                }, 800);
+                }, 400);
             }
-        }, 500);
+        }, 100);
 
-        // SNOW ANIMATION
+        // SNOW
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let parts = [];

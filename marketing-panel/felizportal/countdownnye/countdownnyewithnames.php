@@ -117,7 +117,7 @@
         }
 
         #schedule-box.show {
-            opacity: 1;
+            opacity: 2;
             visibility: visible;
         }
 
@@ -164,6 +164,7 @@
             font-weight: 400;
             color: #ffffff;
             letter-spacing: 2px;
+            margin-bottom: 2px;
         }
 
         #family-names {
@@ -306,10 +307,24 @@
         .hidden {
             display: none;
         }
+
+        #sync-overlay {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 5px 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #0f0;
+            z-index: 100;
+            font-family: monospace;
+        }
     </style>
 </head>
 
 <body>
+    <div id="sync-overlay">Syncing with Server...</div>
 
     <div id="start-overlay">
         <button id="start-btn">START EXPERIENCE</button>
@@ -332,10 +347,10 @@
     </audio>
     <canvas id="snow-canvas"></canvas>
 
-    <div class="background-container"><img src="bg.jpg" class="bg-media"></div>
+    <div class="background-container"><img src="../bg.jpg" class="bg-media"></div>
 
     <div class="content" id="main-content">
-        <img src="FelizLogo.png" alt="Logo" class="company-logo" id="logo-parallax">
+        <img src="../FelizLogo.png" alt="Logo" class="company-logo" id="logo-parallax">
 
         <div id="schedule-box">
             <div class="sched-title">La Dulce Navidad</div>
@@ -378,11 +393,38 @@
         const SHEET_CSV_URL =
             "https://docs.google.com/spreadsheets/d/e/2PACX-1vTlK_3vTjh5mF1aInYXdzzPxQWLgRD7Mw9F87VH6jkf-TTU5pqFyk9mqhHR5pQyDhBCaa2rZpfIadr5/pub?gid=0&single=true&output=csv";
         const APPS_SCRIPT_URL = "YOUR_APPS_SCRIPT_URL_HERE";
-        const targetDate = new Date("Jan 1, 2026 00:00:00").getTime();
+        const targetDate = new Date("Jan 1, 2027 00:00:00").getTime();
+        const SERVER_IP = "time.php"; // Update path as needed
 
         let families = ["Feliz Hotel Family"];
         let isLastMinute = false;
         let familyIndex = 0;
+        let serverTimeOffset = 0;
+
+        // --- NEW SERVER SYNC LOGIC ---
+        async function syncTimeWithServer() {
+            const syncOverlay = document.getElementById('sync-overlay');
+            try {
+                const start = performance.now();
+                // We request time from your specific server IP
+                const response = await fetch(SERVER_IP);
+                const data = await response.json();
+                const end = performance.now();
+
+                const latency = (end - start) / 2;
+                const actualServerTime = new Date(data.datetime).getTime() + latency;
+
+                serverTimeOffset = actualServerTime - Date.now();
+                syncOverlay.innerText = "✓ SYNCED WITH 10.60.0.15";
+                syncOverlay.style.color = "#0f0";
+            } catch (e) {
+                console.error("Sync Error:", e);
+                syncOverlay.innerText = "⚠ SYNC FAILED: USING LOCAL PC TIME";
+                syncOverlay.style.color = "#f00";
+            }
+        }
+        syncTimeWithServer();
+        setInterval(syncTimeWithServer, 600000); // Re-sync every 10 minutes
 
         // FETCH NAMES
         async function fetchNames() {
@@ -435,9 +477,8 @@
             document.getElementById('start-overlay').style.display = 'none';
             document.getElementById('bg-music').play();
             fetchNames();
-            setInterval(fetchNames, 300000); // 5 min refresh
+            setInterval(fetchNames, 300000);
 
-            // Schedule Cycle
             setInterval(() => {
                 if (!isLastMinute && !document.body.classList.contains('celebrating')) {
                     document.getElementById('schedule-box').classList.add('show');
@@ -464,7 +505,10 @@
 
         // COUNTDOWN
         setInterval(() => {
-            const distance = targetDate - Date.now();
+            // USES THE SYNCED TIME
+            const now = Date.now() + serverTimeOffset;
+            const distance = targetDate - now;
+
             const d = Math.floor(distance / 86400000);
             const h = Math.floor((distance % 86400000) / 3600000);
             const m = Math.floor((distance % 3600000) / 60000);
@@ -474,6 +518,9 @@
                 isLastMinute = true;
                 document.body.classList.add('last-minute');
                 document.getElementById('schedule-box').classList.remove('show');
+            } else {
+                isLastMinute = false;
+                document.body.classList.remove('last-minute');
             }
 
             document.getElementById("days").innerText = String(d).padStart(2, '0');
@@ -483,7 +530,6 @@
 
             if (distance < 0 && !document.body.classList.contains('celebrating')) {
                 document.body.classList.add('celebrating');
-                document.body.classList.remove('last-minute');
                 document.getElementById("countdown-wrap").classList.add("hidden");
                 document.getElementById("logo-parallax").classList.add("hidden");
                 document.getElementById("celebration-text").classList.remove("hidden");
@@ -506,7 +552,7 @@
                     });
                 }, 400);
             }
-        }, 1000);
+        }, 100);
 
         // SNOW
         const canvas = document.getElementById('snow-canvas');

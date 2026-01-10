@@ -141,6 +141,45 @@
             color: #ffd700;
         }
 
+        /* NEW: BIG SCREEN FLASHING SECONDS */
+        #big-seconds-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            /* Hidden by default */
+        }
+
+        #big-seconds-text {
+            font-size: 50rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 50px #ff0000, 0 0 100px #ffd700;
+            animation: flash-red 1s infinite;
+        }
+
+        @keyframes flash-red {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+                color: #ff4d4d;
+            }
+        }
+
         #celebration-text {
             font-size: 10rem;
             font-weight: 900;
@@ -182,9 +221,12 @@
             .company-logo {
                 width: 280px;
             }
+
+            #big-seconds-text {
+                font-size: 20rem;
+            }
         }
 
-        /* Sync Status indicator */
         #sync-status {
             position: fixed;
             bottom: 10px;
@@ -199,6 +241,10 @@
 <body>
 
     <div id="sync-status">Syncing with server...</div>
+
+    <div id="big-seconds-wrap">
+        <div id="big-seconds-text">60</div>
+    </div>
 
     <div id="start-overlay">
         <button id="start-btn">BEGIN COUNTDOWN</button>
@@ -215,11 +261,11 @@
     <canvas id="snow-canvas"></canvas>
 
     <div class="background-container" id="bg-parallax">
-        <img src="bg.jpg" class="bg-media" alt="Background">
+        <img src="../bg.jpg" class="bg-media" alt="Background">
     </div>
 
     <div class="content">
-        <img src="FelizLogo.png" alt="Logo" class="company-logo" id="logo-parallax">
+        <img src="../FelizLogo.png" alt="Logo" class="company-logo" id="logo-parallax">
 
         <div id="countdown-wrap">
             <div id="timer">
@@ -253,8 +299,8 @@
         });
 
         // 2. SERVER TIME SYNC LOGIC
-        let timeOffset = 0; // Difference between server and local
-        const targetDate = new Date("Dec 30, 2025 13:46:00").getTime();
+        let timeOffset = 0;
+        const targetDate = new Date("Jan 1, 2027 00:00:00").getTime();
 
         async function syncWithServer() {
             try {
@@ -262,21 +308,15 @@
                 const response = await fetch('time1.php');
                 const data = await response.json();
                 const end = Date.now();
-
-                // Calculate one-way latency (travel time)
                 const latency = (end - start) / 2;
                 const serverTimeAtArrival = data.serverTime + latency;
-
-                // Calculate how much the local clock is ahead or behind
                 timeOffset = serverTimeAtArrival - Date.now();
                 document.getElementById('sync-status').innerText = "✓ Synced with Server (10.60.0.15)";
             } catch (err) {
-                console.error("Sync failed, using local time", err);
                 document.getElementById('sync-status').innerText = "⚠ Sync Failed. Using Local Clock.";
             }
         }
 
-        // Sync on start and then every 5 minutes
         syncWithServer();
         setInterval(syncWithServer, 300000);
 
@@ -292,7 +332,6 @@
 
         // 4. COUNTDOWN & FIREWORKS
         const countdownInterval = setInterval(() => {
-            // Use local time + the calculated server offset
             const now = Date.now() + timeOffset;
             const distance = targetDate - now;
 
@@ -306,12 +345,28 @@
             document.getElementById("minutes").innerText = m.toString().padStart(2, '0');
             document.getElementById("seconds").innerText = s.toString().padStart(2, '0');
 
+            // TRIGGER BIG SECONDS FLASH (FINAL 60 SECONDS)
+            const bigSecsWrap = document.getElementById('big-seconds-wrap');
+            const bigSecsText = document.getElementById('big-seconds-text');
+
+            if (distance > 0 && distance <= 60000) {
+                bigSecsWrap.style.display = 'flex';
+                bigSecsText.innerText = s.toString();
+                // Hide normal logo and countdown to focus on big numbers
+                document.getElementById('countdown-wrap').style.opacity = '0';
+                document.getElementById('logo-parallax').style.opacity = '0.2';
+            } else {
+                bigSecsWrap.style.display = 'none';
+            }
+
             if (distance < 0) {
                 clearInterval(countdownInterval);
+                bigSecsWrap.style.display = 'none'; // Hide big seconds
                 document.getElementById("countdown-wrap").classList.add("hidden");
                 const celeb = document.getElementById("celebration-text");
                 celeb.classList.remove("hidden");
                 celeb.classList.add("animate-pop");
+                document.getElementById('logo-parallax').style.opacity = '1';
 
                 document.getElementById('bg-music').pause();
                 document.getElementById('fireworks-sound').play();
@@ -339,7 +394,7 @@
                     if (Date.now() < end) requestAnimationFrame(frame);
                 }());
             }
-        }, 100); // Check every 100ms for high precision sync
+        }, 100);
 
         // 5. ADVANCED SNOW
         const canvas = document.getElementById('snow-canvas');
