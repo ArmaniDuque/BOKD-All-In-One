@@ -58,7 +58,7 @@
                     </a>
                         <ul class="nav nav-treeview">
                              <li class="nav-item">
-                                <a href="' . APPURL . 'it-panel/meals/index.php" class="nav-link">
+                                <a href="' . APPURL . 'it-panel/meals/mealindex.php" class="nav-link">
                                     <i class="nav-icon fas fa-wifi text-success"></i>
                                     <p>Meal Dashboard</p>
                                 </a>
