@@ -137,9 +137,13 @@
                 <span class="icon">📅</span>
                 Today's Events
             </a>
-            <a href="countdown/index.php" class="flat-btn btn-nye">
+            <a href="countdownnye/index.php" class="flat-btn btn-nye">
                 <span class="icon">🎆</span>
-                Countdown
+                CountdownNew Year's Eve
+            </a>
+            <a href="countdownxmas/index.php" class="flat-btn btn-nye">
+                <span class="icon">🎆</span>
+                Countdown Christmas Eve
             </a>
 
             <a href="welcome.php" class="flat-btn">

@@ -313,7 +313,7 @@
             "Zhalnin Family"
         ];
 
-        const targetDate = new Date("Dec 25, 2027 00:00:00").getTime();
+        const targetDate = new Date("Dec 25, 2026 00:00:00").getTime();
         let guestIndex = 0;
         let serverTimeOffset = 0;
 
