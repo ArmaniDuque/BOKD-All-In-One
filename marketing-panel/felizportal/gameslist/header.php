@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +11,7 @@
             height: 100%;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url('bg.jpg');
+                url('../bg.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -120,43 +117,3 @@
         }
     </style>
 </head>
-
-<body>
-
-    <div class="dashboard-container">
-        <img src="FelizLogo.png" alt="Feliz Hotel Logo" class="company-logo">
-
-        <div class="welcome-msg">Feliz Hotel Boracay Portal</div>
-
-        <div class="button-grid">
-            <a href="promoandevents/index.php" class="flat-btn">
-                <span class="icon">🎁</span>
-                Promos & Upcoming
-            </a>
-            <a href="todayevents/index.php" class="flat-btn">
-                <span class="icon">📅</span>
-                Today's Events
-            </a>
-            <a href="countdown/index.php" class="flat-btn btn-nye">
-                <span class="icon">🎆</span>
-                Countdown
-            </a>
-
-            <a href="welcome.php" class="flat-btn">
-                <span class="icon">👤</span>
-                Welcome Guest
-            </a>
-            <a href="menutoday.php" class="flat-btn">
-                <span class="icon">👤</span>
-                Menu Today
-            </a>
-            <a href="gameslist/index.php" class="flat-btn btn-nye">
-                <span class="icon">🎆</span>
-                Games List Online
-            </a>
-        </div>
-    </div>
-
-</body>
-
-</html>
